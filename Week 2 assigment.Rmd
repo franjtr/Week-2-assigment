@@ -1,0 +1,31 @@
+---
+title: "Leaflet Map Showing a GPX track"
+author: "Francisco José Torres Ramírez"
+date: "10 de noviembre de 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Summary
+
+In this assigment we are going to read and plot a gpx track of the french Santiago's way, with different map layers options using leaflet.
+
+
+```{r, cache=TRUE, warning=FALSE, message=FALSE}
+library(leaflet)
+library(rgdal)
+GPX_file <- 'FRANCES.gpx'
+track <- readOGR(GPX_file, layer = "tracks", verbose = FALSE)
+leaflet() %>% addTiles() %>% addPolylines(data=track) %>%
+addProviderTiles("Thunderforest.Landscape", group = "Topographical") %>%
+addProviderTiles("OpenStreetMap.Mapnik", group = "Road map") %>%
+addProviderTiles("Esri.WorldImagery", group = "Satellite") %>%
+addLayersControl(position = 'topright',
+    baseGroups = c("Topographical", "Road map", "Satellite"),
+    options = layersControlOptions(collapsed = FALSE))
+```
+
+
